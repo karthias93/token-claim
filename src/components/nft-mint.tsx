@@ -58,7 +58,7 @@ export function NftMint(props: Props) {
 		}
 	};
 
-	// const toggleTheme = () => {
+	// const toggleTheme = () => {n
 	// 	setTheme(theme === "dark" ? "light" : "dark");
 	// };
 	if (props.pricePerToken === null || props.pricePerToken === undefined) {
@@ -145,7 +145,7 @@ export function NftMint(props: Props) {
 							htmlFor="custom-address"
 							className={`${useCustomAddress ? "" : "text-gray-400"} cursor-pointer`}
 						>
-							Mint to a custom address
+							Claim to a custom address
 						</Label>
 					</div>
 					{useCustomAddress && (
@@ -197,13 +197,13 @@ export function NftMint(props: Props) {
 								width: "100%",
 							}}
 							disabled={isMinting}
-							onTransactionSent={() => toast.info("Minting NFT")}
+							onTransactionSent={() => toast.info("Claiming Token")}
 							onTransactionConfirmed={() =>
-								toast.success("Minted successfully")
+								toast.success("Claimed succesfully")
 							}
 							onError={(err) => toast.error(err.message)}
 						>
-							Mint {quantity} NFT{quantity > 1 ? "s" : ""}
+							Claim {quantity} Token{quantity > 1 ? "s" : ""}
 						</ClaimButton>
 					) : (
 						<ConnectButton
@@ -215,7 +215,7 @@ export function NftMint(props: Props) {
 			</Card>
 			{true && (
 				<Toast className="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-md">
-					Successfully minted {quantity} NFT{quantity > 1 ? "s" : ""}
+					Successfully claimed {quantity} Token{quantity > 1 ? "s" : ""}
 					{useCustomAddress && customAddress ? ` to ${customAddress}` : ""}!
 				</Toast>
 			)}
