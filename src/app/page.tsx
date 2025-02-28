@@ -21,6 +21,7 @@ import {
 } from "thirdweb/extensions/erc721";
 import { getActiveClaimCondition as getActiveClaimCondition20 } from "thirdweb/extensions/erc20";
 import { useReadContract } from "thirdweb/react";
+import { useEffect, useState } from "react";
 
 // This page renders on the client.
 // If you are looking for a server-rendered version, checkout src/ssr/page.tsx
@@ -32,12 +33,13 @@ export default function Home() {
 		chain,
 		client,
 	});
-	console.log(defaultNftContractAddress, 'defaultNftContractAddress', chain)
 	const isERC721Query = useReadContract(isERC721, { contract });
 	const isERC1155Query = useReadContract(isERC1155, { contract });
 	const contractMetadataQuery = useReadContract(getContractMetadata, {
 		contract,
 	});
+
+	const [ethToEur, setEthToEur] = useState(1)
 
 	const nftQuery = useReadContract(getNFT, {
 		contract,
@@ -57,12 +59,18 @@ export default function Home() {
 		contract,
 		queryOptions: { enabled: isERC721Query.data },
 	});
-
+	const getETHtoEUR = async () => {
+		const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=eur");
+		const data = await response.json();
+		setEthToEur(data.ethereum.eur | 1)
+	}
+	useEffect(() => {
+		getETHtoEUR()
+	}, [])
 	const claimCondition20 = useReadContract(getActiveClaimCondition20, {
 		contract,
 		queryOptions: { enabled: !isERC721Query.data && !isERC1155Query.data },
 	});
-
 	const displayName = isERC1155Query.data
 		? nftQuery.data?.metadata.name
 		: contractMetadataQuery.data?.name;
@@ -94,11 +102,10 @@ export default function Home() {
 		queryOptions: { enabled: !!currency },
 	});
 
-	const currencySymbol = currencyMetadata.data?.symbol || "";
-	console.log(currencyMetadata, 'currencyMetadata', isERC1155Query.data, claimCondition20?.data, isERC1155Query.data, '-----', isERC721Query.data, '----', claimCondition20.data?.pricePerToken)	
+	const currencySymbol = currencyMetadata.data?.symbol || "";	
 	const pricePerToken =
 		currencyMetadata.data && priceInWei !== null && priceInWei !== undefined
-			? Number(toTokens(priceInWei, currencyMetadata.data.decimals))
+			? Number(toTokens(priceInWei, currencyMetadata.data.decimals)) * ethToEur
 			: null;
 
 	return (
