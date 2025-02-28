@@ -107,7 +107,10 @@ export default function Home() {
 		currencyMetadata.data && priceInWei !== null && priceInWei !== undefined
 			? Number(toTokens(priceInWei, currencyMetadata.data.decimals)) * ethToEur
 			: null;
-
+	const priceEthPerToken =
+		currencyMetadata.data && priceInWei !== null && priceInWei !== undefined
+			? Number(toTokens(priceInWei, currencyMetadata.data.decimals))
+			: null;
 	return (
 		<NftMint
 			contract={contract}
@@ -116,6 +119,7 @@ export default function Home() {
 			description={description || ""}
 			currencySymbol={currencySymbol}
 			pricePerToken={pricePerToken}
+			priceEthPerToken={priceEthPerToken}
 			isERC1155={!!isERC1155Query.data}
 			isERC721={!!isERC721Query.data}
 			tokenId={tokenId}

@@ -28,6 +28,7 @@ type Props = {
 	description: string;
 	contractImage: string;
 	pricePerToken: number | null;
+	priceEthPerToken: number | null;
 	currencySymbol: string | null;
 	isERC1155: boolean;
 	isERC721: boolean;
@@ -91,8 +92,9 @@ export function NftMint(props: Props) {
 								}
 							/>
 						)}
-						<div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-sm font-semibold">
-							${props.pricePerToken}/each
+						<div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-sm font-semibold flex flex-col items-center">
+							<div>${props.pricePerToken}/each</div>
+							<div>{props.priceEthPerToken} {props.currencySymbol}/each</div>
 						</div>
 					</div>
 					<h2 className="text-2xl font-bold mb-2 dark:text-white">
@@ -101,7 +103,7 @@ export function NftMint(props: Props) {
 					<p className="text-gray-600 dark:text-gray-300 mb-4">
 						{props.description}
 					</p>
-					<div className="flex items-center justify-between mb-4">
+					<div className="flex items-center justify-between mb-4 flex-col gap-4">
 						<div className="flex items-center">
 							<Button
 								variant="outline"
@@ -131,7 +133,7 @@ export function NftMint(props: Props) {
 							</Button>
 						</div>
 						<div className="text-base pr-1 font-semibold dark:text-white">
-							Total: €{props.pricePerToken * quantity}
+							Total: €{props.pricePerToken * quantity} / {props.priceEthPerToken} {props.currencySymbol}
 						</div>
 					</div>
 
