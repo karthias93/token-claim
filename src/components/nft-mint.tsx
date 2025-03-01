@@ -93,7 +93,7 @@ export function NftMint(props: Props) {
 							/>
 						)}
 						<div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-sm font-semibold flex flex-col items-center">
-							<div>${props.pricePerToken}/each</div>
+							<div>€{props.pricePerToken?.toFixed(2)}/each</div>
 							<div>{props.priceEthPerToken} {props.currencySymbol}/each</div>
 						</div>
 					</div>
@@ -133,7 +133,7 @@ export function NftMint(props: Props) {
 							</Button>
 						</div>
 						<div className="text-base pr-1 font-semibold dark:text-white">
-							Total: €{props.pricePerToken * quantity} / {props.priceEthPerToken} {props.currencySymbol}
+							Total: €{(props.pricePerToken * quantity)?.toFixed(2)} / {props.priceEthPerToken} {props.currencySymbol}
 						</div>
 					</div>
 
